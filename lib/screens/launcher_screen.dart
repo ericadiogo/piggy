@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:piggy/screens/login_screen.dart';
 import 'package:piggy/screens/register_screen.dart';
 
 class LauncherScreen extends StatefulWidget{
@@ -30,7 +31,9 @@ class _LauncherScreenState extends State<LauncherScreen>{
               style: TextStyle(fontSize: 20),
             ),
             SizedBox(height: 80,),
-            ElevatedButton(onPressed: (){},
+            ElevatedButton(onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(),),);
+            },
               style: ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
                 shape: MaterialStateProperty.all(
