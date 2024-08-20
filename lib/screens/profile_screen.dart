@@ -17,7 +17,6 @@ class _ProfileScreenState extends State<ProfileScreen>{
         alignment: Alignment.center,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text('Set Your Profile',
                 style: TextStyle(
@@ -25,9 +24,16 @@ class _ProfileScreenState extends State<ProfileScreen>{
                   fontFamily: 'Lilita One',
                 )
             ),
-            SizedBox(height: 20,),
+            SizedBox(height: 80,),
+            Text('My Monthly Income',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontSize: 18,
+              ),
+            ),
+            SizedBox(height: 5,),
             Container(
-              padding: EdgeInsets.fromLTRB(30,5,30,5),
+              padding: EdgeInsets.fromLTRB(60,5,60,5),
               child:
               TextField(decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -36,13 +42,20 @@ class _ProfileScreenState extends State<ProfileScreen>{
                     width: 1.0,
                   ),
                 ),
-                hintText: 'Email',
+                hintText: '\$',
               ),
               ),
             ),
-            SizedBox(height: 10,),
+            SizedBox(height: 30,),
+            Text('My Monthly Fixed Expenses',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontSize: 18,
+              ),
+            ),
+            SizedBox(height: 5,),
             Container(
-              padding: EdgeInsets.fromLTRB(30,5,30,5),
+              padding: EdgeInsets.fromLTRB(60,5,60,5),
               child:
               TextField(decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -51,13 +64,20 @@ class _ProfileScreenState extends State<ProfileScreen>{
                     width: 1.0,
                   ),
                 ),
-                hintText: 'Password',
+                hintText: '\$',
               ),
               ),
             ),
-            SizedBox(height: 10,),
+            SizedBox(height: 30,),
+            Text('Monthly Variable Expenses (Approximately)',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontSize: 18,
+              ),
+            ),
+            SizedBox(height: 5,),
             Container(
-              padding: EdgeInsets.fromLTRB(30,5,30,5),
+              padding: EdgeInsets.fromLTRB(60,5,60,5),
               child:
               TextField(decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -66,10 +86,11 @@ class _ProfileScreenState extends State<ProfileScreen>{
                     width: 1.0,
                   ),
                 ),
-                hintText: 'Re-enter Password',
+                hintText: '\$',
               ),
               ),
             ),
+
             SizedBox(height: 60,),
             ElevatedButton(onPressed: (){
               Navigator.push(context,
@@ -85,32 +106,13 @@ class _ProfileScreenState extends State<ProfileScreen>{
                 padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(10),),
                 fixedSize: MaterialStateProperty.all<Size>(Size(200.0, 60.0),),
               ),
-              child: Text('Register',
+              child: Text('Finish',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 28,
                 ),
               ),
-            ),
-            SizedBox(height: 15,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('I have an account. ', style: TextStyle(
-                  fontSize: 16,
-                ),
-                ),
-                new InkWell(
-                  child: new Text('Log in.', style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.blue,
-                  ),
-                  ),
-                  onTap: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginScreen(),),
-                  ),
-                ),],
             ),],
         ),
       ),
