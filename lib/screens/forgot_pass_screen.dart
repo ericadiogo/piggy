@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:piggy/screens/register_screen.dart';
 
 import 'login_screen.dart';
 
@@ -28,7 +27,7 @@ class _ForgotPassScreenState extends State<ForgotPassScreen>{
             ),
             SizedBox(height: 20,),
             Container(
-              padding: EdgeInsets.all(30),
+              padding: EdgeInsets.all(28),
               child: Text('Please, type your registered email. We will send you a link to recover your password.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
