@@ -27,7 +27,10 @@ class _RegisterScreenState extends State<RegisterScreen>{
         email: emailController.text,
         password: passwordController.text,
         context:context,);
-    SnackBar(content: Text('You have been registered!'),);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('You are registered!'),
+      ),
+    );
     Navigator.push(context,
       MaterialPageRoute(builder: (context) => LoginScreen(),),);
   }

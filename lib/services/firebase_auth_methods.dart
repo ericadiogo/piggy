@@ -17,16 +17,45 @@ class FirebaseAuthMethods {
       );
       //await sendEmailVerification(context);
     } on FirebaseAuthException catch (e) {
-      SnackBar(content: Text(e.message!),);
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.message!),
+        ),
+      );
+    }
+  }
+
+  Future<void> loginEmail({
+    required String email,
+    required String password,
+    required BuildContext context,
+  }) async{
+    try{
+      await _auth.signInWithEmailAndPassword(
+          email: email,
+          password: password);
+      //if(!_auth.currentUser!.emailVerified){
+        //await sendEmailVerification(context);
+      //}
+    } on FirebaseAuthException catch(e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message!),
+        ),
+      );
     }
   }
 
   Future<void> sendEmailVerification(BuildContext context) async {
     try{
       _auth.currentUser!.sendEmailVerification();
-      SnackBar(content: Text('Email verification sent.'),);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Email verification sent!'),
+        ),
+      );
     } on FirebaseAuthException catch(e) {
-      SnackBar(content: Text(e.message!),);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message!),
+        ),
+      );
     }
   }
 }
