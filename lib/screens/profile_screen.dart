@@ -1,5 +1,9 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
+import 'goals_screen.dart';
 import 'login_screen.dart';
 
 class ProfileScreen extends StatefulWidget{
@@ -8,6 +12,18 @@ class ProfileScreen extends StatefulWidget{
 }
 
 class _ProfileScreenState extends State<ProfileScreen>{
+  final imagePicker = ImagePicker();
+  File? imageFile;
+
+  pick(ImageSource source) async {
+    final pickedFile = await imagePicker.pickImage(source: source);
+    if(pickedFile != null){
+      setState(() {
+        imageFile = File(pickedFile.path);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,9 +38,36 @@ class _ProfileScreenState extends State<ProfileScreen>{
                 style: TextStyle(
                   fontSize: 50,
                   fontFamily: 'Lilita One',
-                )
+                ),
             ),
-            SizedBox(height: 80,),
+            SizedBox(height: 40,),
+            Stack(
+              children: [
+                CircleAvatar(
+                  radius: 75,
+                  backgroundColor: Colors.grey[200],
+                  child: CircleAvatar(
+                    radius: 65,
+                    backgroundColor: Colors.grey[300],
+                    backgroundImage: imageFile != null? FileImage(imageFile!) : null,
+                  ),
+                ),
+                Positioned(
+                  right: 5,
+                  bottom: 5,
+                  child: CircleAvatar(
+                    backgroundColor: Colors.grey[200],
+                    child: IconButton(onPressed: _showOptionsBottomSheet,
+                      icon: Icon(
+                        Icons.edit_outlined,
+                        color: Colors.grey[400],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 40,),
             Text('My Monthly Income',
               textAlign: TextAlign.left,
               style: TextStyle(
@@ -94,7 +137,7 @@ class _ProfileScreenState extends State<ProfileScreen>{
             SizedBox(height: 60,),
             ElevatedButton(onPressed: (){
               Navigator.push(context,
-                MaterialPageRoute(builder: (context) => LoginScreen(),),);
+                MaterialPageRoute(builder: (context) => GoalsScreen(),),);
             },
               style: ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
@@ -117,5 +160,70 @@ class _ProfileScreenState extends State<ProfileScreen>{
         ),
       ),
     );
+  }
+
+  void _showOptionsBottomSheet(){
+    showModalBottomSheet(
+        context: context,
+        builder: (_) {
+          return Padding(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.grey[200],
+                    child: Center(
+                      child: Icon(
+                        Icons.image_outlined,
+                        color: Colors.grey[500],
+                      ),
+                    ),
+                  ),
+                  title: Text('Gallery',),
+                  onTap: (){
+                    Navigator.of(context).pop();
+                    pick(ImageSource.gallery);
+                  },
+                ),
+                ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.grey[200],
+                    child: Center(
+                      child: Icon(
+                        Icons.camera_alt_outlined,
+                        color: Colors.grey[500],
+                      ),
+                    ),
+                  ),
+                  title: Text('Camera',),
+                  onTap: (){
+                    Navigator.of(context).pop();
+                    pick(ImageSource.camera);
+                  },
+                ),
+                ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.grey[200],
+                    child: Center(
+                      child: Icon(
+                        Icons.delete_outlined,
+                        color: Colors.grey[500],
+                      ),
+                    ),
+                  ),
+                  title: Text('Remove',),
+                  onTap: (){
+                    Navigator.of(context).pop();
+                    setState(() {
+                      imageFile = null;
+                    });
+                  },
+                ),
+              ],
+            ),
+          );
+        });
   }
 }
