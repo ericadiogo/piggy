@@ -75,6 +75,7 @@ class _LoginScreenState extends State<LoginScreen>{
               padding: EdgeInsets.fromLTRB(30,5,30,5),
               child:
               TextField(controller: passwordController,
+                obscureText: true,
                 decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
