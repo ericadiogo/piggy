@@ -29,6 +29,8 @@ class _ForgotPassScreenState extends State<ForgotPassScreen>{
         ),
       );
     }
+    Navigator.push(context,
+      MaterialPageRoute(builder: (context) => LoginScreen(),),);
   }
 
   @override
@@ -42,15 +44,12 @@ class _ForgotPassScreenState extends State<ForgotPassScreen>{
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-                padding: EdgeInsets.all(20),
-                child:
-                  Text('Forgot Password?',
-                      style: TextStyle(
-                        fontSize: 50,
-                        fontFamily: 'Lilita One',
-                      )
-                  ),
+            Text('Forgot \n Password?',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                 fontSize: 50,
+                 fontFamily: 'Lilita One',
+               ),
             ),
             SizedBox(height: 20,),
             Container(
@@ -65,7 +64,8 @@ class _ForgotPassScreenState extends State<ForgotPassScreen>{
             Container(
               padding: EdgeInsets.fromLTRB(30,5,30,5),
               child:
-              TextField(decoration: InputDecoration(
+              TextField(controller: _emailController,
+                decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: BorderSide(
@@ -88,7 +88,7 @@ class _ForgotPassScreenState extends State<ForgotPassScreen>{
                 padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(10),),
                 fixedSize: MaterialStateProperty.all<Size>(Size(300.0, 60.0),),
               ),
-              child: Text('Send Email Recovery',
+              child: Text('Send Email',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
