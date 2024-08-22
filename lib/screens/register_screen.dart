@@ -1,13 +1,37 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:piggy/services/firebase_auth_methods.dart';
 
 import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget{
+  static String routeName = '/signup-email-password';
+  const RegisterScreen({Key? key}) : super(key : key);
   @override
   State<StatefulWidget> createState() => _RegisterScreenState();
 }
 
 class _RegisterScreenState extends State<RegisterScreen>{
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+  }
+
+  void registerUser() async {
+    FirebaseAuthMethods(FirebaseAuth.instance).signUpWithEmail(
+        email: emailController.text,
+        password: passwordController.text,
+        context:context,);
+    SnackBar(content: Text('You have been registered!'),);
+    Navigator.push(context,
+      MaterialPageRoute(builder: (context) => LoginScreen(),),);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,11 +49,12 @@ class _RegisterScreenState extends State<RegisterScreen>{
               fontFamily: 'Lilita One',
             )
         ),
-        SizedBox(height: 20,),
+        SizedBox(height: 60,),
         Container(
           padding: EdgeInsets.fromLTRB(30,5,30,5),
           child:
-            TextField(decoration: InputDecoration(
+            TextField(controller: emailController,
+              decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: BorderSide(
@@ -44,7 +69,9 @@ class _RegisterScreenState extends State<RegisterScreen>{
         Container(
           padding: EdgeInsets.fromLTRB(30,5,30,5),
           child:
-            TextField(decoration: InputDecoration(
+            TextField(controller: passwordController,
+              obscureText: true,
+              decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: BorderSide(
@@ -59,7 +86,8 @@ class _RegisterScreenState extends State<RegisterScreen>{
         Container(
           padding: EdgeInsets.fromLTRB(30,5,30,5),
           child:
-            TextField(decoration: InputDecoration(
+            TextField(obscureText: true,
+              decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: BorderSide(
@@ -71,10 +99,7 @@ class _RegisterScreenState extends State<RegisterScreen>{
             ),
         ),
         SizedBox(height: 60,),
-        ElevatedButton(onPressed: (){
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => LoginScreen(),),);
-        },
+        ElevatedButton(onPressed: registerUser,
           style: ButtonStyle(
             backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
             shape: MaterialStateProperty.all(
