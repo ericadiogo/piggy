@@ -1,15 +1,42 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:piggy/screens/profile_screen.dart';
 import 'package:piggy/screens/register_screen.dart';
 
+import '../services/firebase_auth_methods.dart';
 import 'forgot_pass_screen.dart';
 
 class LoginScreen extends StatefulWidget{
+  const LoginScreen({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen>{
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+  }
+
+  void loginUser() async {
+    FirebaseAuthMethods(FirebaseAuth.instance).loginEmail(
+      email: emailController.text,
+      password: passwordController.text,
+      context:context,);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('You are logged!'),
+      ),
+    );
+    Navigator.push(context,
+      MaterialPageRoute(builder: (context) => ProfileScreen(),),);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,11 +58,12 @@ class _LoginScreenState extends State<LoginScreen>{
             Container(
               padding: EdgeInsets.fromLTRB(30,5,30,5),
               child:
-              TextField(decoration: InputDecoration(
+              TextField(controller:emailController,
+                decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: BorderSide(
-                    width: 1.0,
+                    width: 3.0,
                   ),
                 ),
                 hintText: 'Email',
@@ -46,7 +74,9 @@ class _LoginScreenState extends State<LoginScreen>{
             Container(
               padding: EdgeInsets.fromLTRB(30,5,30,5),
               child:
-              TextField(decoration: InputDecoration(
+              TextField(controller: passwordController,
+                obscureText: true,
+                decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: BorderSide(
@@ -58,10 +88,7 @@ class _LoginScreenState extends State<LoginScreen>{
               ),
             ),
             SizedBox(height: 80,),
-            ElevatedButton(onPressed: (){
-              Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ProfileScreen(),),);
-            },
+            ElevatedButton(onPressed: loginUser,
               style: ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
                 shape: MaterialStateProperty.all(

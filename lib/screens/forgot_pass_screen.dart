@@ -1,13 +1,36 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'login_screen.dart';
 
 class ForgotPassScreen extends StatefulWidget{
+  const ForgotPassScreen({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _ForgotPassScreenState();
 }
 
 class _ForgotPassScreenState extends State<ForgotPassScreen>{
+  final _emailController = TextEditingController();
+
+  @override
+  void dispose(){
+    _emailController.dispose();
+    super.dispose();
+  }
+
+  Future passwordReset() async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(
+          email: _emailController.text.trim());
+    } on FirebaseAuthException catch(e){
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message!),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,11 +42,15 @@ class _ForgotPassScreenState extends State<ForgotPassScreen>{
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('Forgot Password',
-                style: TextStyle(
-                  fontSize: 50,
-                  fontFamily: 'Lilita One',
-                )
+            Padding(
+                padding: EdgeInsets.all(20),
+                child:
+                  Text('Forgot Password?',
+                      style: TextStyle(
+                        fontSize: 50,
+                        fontFamily: 'Lilita One',
+                      )
+                  ),
             ),
             SizedBox(height: 20,),
             Container(
@@ -50,10 +77,7 @@ class _ForgotPassScreenState extends State<ForgotPassScreen>{
               ),
             ),
             SizedBox(height: 60,),
-            ElevatedButton(onPressed: (){
-              Navigator.push(context,
-                MaterialPageRoute(builder: (context) => LoginScreen(),),);
-            },
+            ElevatedButton(onPressed: passwordReset,
               style: ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
                 shape: MaterialStateProperty.all(
