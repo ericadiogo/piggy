@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:piggy/screens/profile_screen.dart';
 import 'package:piggy/screens/results_screen.dart';
-import 'package:piggy/screens/time_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'conversion_screen.dart';
-import 'goals_screen.dart';
-import 'login_screen.dart';
+import 'new_piggy.dart';
 
 class HomeScreen extends StatefulWidget{
   @override
@@ -61,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen>{
             SizedBox(height: 30,),
             ElevatedButton(onPressed: (){
               Navigator.push(context,
-                MaterialPageRoute(builder: (context) => GoalsScreen(),),);
+                MaterialPageRoute(builder: (context) => NewPiggyScreen(),),);
             },
               style: ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),

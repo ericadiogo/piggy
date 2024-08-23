@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-
+import 'conversion_screen.dart';
+import 'home_screen.dart';
 
 class ResultsScreen extends StatefulWidget{
   @override
@@ -11,6 +12,10 @@ class _ResultsScreenState extends State<ResultsScreen>{
   late String userName = '';
   late String goal = '';
   int _months = 0;
+  double _percent = 0;
+  bool? isChecked = false;
+  double _currentSliderValue = 0;
+  double _goal = 0;
 
   void _changeMonths(int months){
     setState(() {
@@ -47,135 +52,454 @@ class _ResultsScreenState extends State<ResultsScreen>{
                     ),
                   ),
                   SizedBox(width: 20,),
-                  Column(
-                    children: [
-                      Text('Hey, $userName!',
-                        style: TextStyle(
-                          fontSize: 36,
-                          fontFamily: 'Lilita One',
-                          color: Colors.white,
+                  Expanded(child:
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text('Hey, $userName!',
+                          style: TextStyle(
+                            fontSize: 36,
+                            fontFamily: 'Lilita One',
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      Text('Hey, $userName!',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'Lilita One',
-                          color: Colors.white,
+                        Text('You reached less than ($_percent)% of your Piggy.',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 40,),
-            Text('$goal',
-              style: TextStyle(
-                fontSize: 32,
-                fontFamily: 'Lilita One',
-              ),
-            ),
-            SizedBox(height: 80,),
-            Text('Result',
-              style: TextStyle(
-                fontSize: 50,
-                fontFamily: 'Lilita One',
-              ),
-            ),
-            SizedBox(height: 40,),
+            SizedBox(height: 20,),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Column(
-                  children: [
-                    Image.asset('assets/images/coin.png',width: 60),
-                  ],
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    children:[
+                      Text('Goal',
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontFamily: 'Lilita One',
+                        ),
+                      ),
+                      Text('\$ $_goal',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: 'Lilita One',
+                        ),
+                      ),
+                    ],
+                  )
                 ),
-                SizedBox(width: 20,),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Fixed Installments',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                    SizedBox(height: 2,),
-                    Text('Find how much you need to save ',
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                    Text('per period to achieve your goal.',
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(height: 30,),
-            Row(
-              children: [
-                Column(
-                  children: [
-                    Image.asset('assets/images/coingroup.png',width: 60),
-                  ],
-                ),
-                SizedBox(width: 20,),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Progressive Installments',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                    SizedBox(height: 2,),
-                    Text('Progressive installments to help ',
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                    Text('you achieve your goal faster.',
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(height: 60,),
-            ElevatedButton(onPressed: (){
-              Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ResultsScreen(),),);
-            },
-              style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+                SizedBox(width: 5,),
+                Expanded(
+                  flex: 6,
+                  child: Slider(
+                    value: _currentSliderValue,
+                    max: 100000,
+                    divisions: 50000,
+                    label: _currentSliderValue.round().toString(),
+                    onChanged: (double value){
+                      setState(() {
+                        _currentSliderValue = value;
+                      });
+                    },
+                    activeColor: Colors.black,
+                    inactiveColor: Colors.grey[500],
                   ),
                 ),
-                padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(10),),
-                fixedSize: MaterialStateProperty.all<Size>(Size(200.0, 60.0),),
-              ),
-              child: Text('Next',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 28,
+                Expanded(
+                  flex: 2,
+                  child: Text('\$ $_currentSliderValue',style: TextStyle(
+                    fontSize: 28,
+                    fontFamily: 'Lilita One',
+                  ),
+                  ),
                 ),
-              ),
-            ),],
+              ],
+            ),
+            SizedBox(height: 40,),
+            Row(
+
+              children: [
+                Expanded(child:
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: isChecked,
+                            activeColor: Colors.black,
+                            tristate: true,
+                            onChanged: (newBool){
+                              setState(() {
+                                isChecked = newBool;
+                              });
+                            },
+                          ),
+                          Text('\$ 50.00',style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: isChecked,
+                            activeColor: Colors.black,
+                            tristate: true,
+                            onChanged: (newBool){
+                              setState(() {
+                                isChecked = newBool;
+                              });
+                            },
+                          ),
+                          Text('\$ 100.00',style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: isChecked,
+                            activeColor: Colors.black,
+                            tristate: true,
+                            onChanged: (newBool){
+                              setState(() {
+                                isChecked = newBool;
+                              });
+                            },
+                          ),
+                          Text('\$ 200.00',style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: isChecked,
+                            activeColor: Colors.black,
+                            tristate: true,
+                            onChanged: (newBool){
+                              setState(() {
+                                isChecked = newBool;
+                              });
+                            },
+                          ),
+                          Text('\$ 400.00',style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: isChecked,
+                            activeColor: Colors.black,
+                            tristate: true,
+                            onChanged: (newBool){
+                              setState(() {
+                                isChecked = newBool;
+                              });
+                            },
+                          ),
+                          Text('\$ 800.00',style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: isChecked,
+                            activeColor: Colors.black,
+                            tristate: true,
+                            onChanged: (newBool){
+                              setState(() {
+                                isChecked = newBool;
+                              });
+                            },
+                          ),
+                          Text('\$ 1000.00',style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: isChecked,
+                            activeColor: Colors.black,
+                            tristate: true,
+                            onChanged: (newBool){
+                              setState(() {
+                                isChecked = newBool;
+                              });
+                            },
+                          ),
+                          Text('\$ 1200.00',style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: isChecked,
+                            activeColor: Colors.black,
+                            tristate: true,
+                            onChanged: (newBool){
+                              setState(() {
+                                isChecked = newBool;
+                              });
+                            },
+                          ),
+                          Text('\$ 1500.00',style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
+                ),
+                SizedBox(width: 10,),
+                Expanded(child:
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: isChecked,
+                          activeColor: Colors.black,
+                          tristate: true,
+                          onChanged: (newBool){
+                            setState(() {
+                              isChecked = newBool;
+                            });
+                          },
+                        ),
+                        Text('\$ 5.00',style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: isChecked,
+                          activeColor: Colors.black,
+                          tristate: true,
+                          onChanged: (newBool){
+                            setState(() {
+                              isChecked = newBool;
+                            });
+                          },
+                        ),
+                        Text('\$ 10.00',style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: isChecked,
+                          activeColor: Colors.black,
+                          tristate: true,
+                          onChanged: (newBool){
+                            setState(() {
+                              isChecked = newBool;
+                            });
+                          },
+                        ),
+                        Text('\$ 15.00',style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: isChecked,
+                          activeColor: Colors.black,
+                          tristate: true,
+                          onChanged: (newBool){
+                            setState(() {
+                              isChecked = newBool;
+                            });
+                          },
+                        ),
+                        Text('\$ 20.00',style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: isChecked,
+                          activeColor: Colors.black,
+                          tristate: true,
+                          onChanged: (newBool){
+                            setState(() {
+                              isChecked = newBool;
+                            });
+                          },
+                        ),
+                        Text('\$ 25.00',style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: isChecked,
+                          activeColor: Colors.black,
+                          tristate: true,
+                          onChanged: (newBool){
+                            setState(() {
+                              isChecked = newBool;
+                            });
+                          },
+                        ),
+                        Text('\$ 30.00',style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: isChecked,
+                          activeColor: Colors.black,
+                          tristate: true,
+                          onChanged: (newBool){
+                            setState(() {
+                              isChecked = newBool;
+                            });
+                          },
+                        ),
+                        Text('\$ 35.00',style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: isChecked,
+                          activeColor: Colors.black,
+                          tristate: true,
+                          onChanged: (newBool){
+                            setState(() {
+                              isChecked = newBool;
+                            });
+                          },
+                        ),
+                        Text('\$ 40.00',style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                        ),
+                      ],
+                    ),
+                  ],
+                )
+                ),
+              ],
+            ),
+            SizedBox(height: 20,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton(onPressed: (){
+                  Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HomeScreen(),),);
+                },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(10),),
+                    fixedSize: MaterialStateProperty.all<Size>(Size(150.0, 60.0),),
+                  ),
+                  child: Text('Conversion',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10,),
+                ElevatedButton(onPressed: (){
+                  Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ConversionScreen(),),);
+                },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(10),),
+                    fixedSize: MaterialStateProperty.all<Size>(Size(150.0, 60.0),),
+                  ),
+                  child: Text('Back',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

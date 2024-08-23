@@ -12,6 +12,7 @@ class _MeansScreenState extends State<MeansScreen>{
   late String userName = '';
   late String goal = '';
   int _months = 0;
+  bool? isChecked = false;
 
   void _changeMonths(int months){
     setState(() {
