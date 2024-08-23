@@ -1,36 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:piggy/screens/launcher_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:piggy/screens/results_screen.dart';
 
 import 'home_screen.dart';
 
-class SplashScreen extends StatefulWidget{
+class PlanningScreen extends StatefulWidget{
   @override
-  State<StatefulWidget> createState() => _SplashScreenState();
+  State<StatefulWidget> createState() => _PlanningScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
+class _PlanningScreenState extends State<PlanningScreen>
     with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
     super.initState();
 
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      if(user == null){
-        Future.delayed(Duration(seconds: 4),(){
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (_) => LauncherScreen(),
-          ));
-        });
-      } else {
-        Future.delayed(Duration(seconds: 4),(){
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (_) => HomeScreen(),
-          ));
-        });
-      }
+    Future.delayed(Duration(seconds: 4),(){
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (_) => ResultsScreen(),
+      ));
     });
   }
 
@@ -54,16 +44,13 @@ class _SplashScreenState extends State<SplashScreen>
           children: [
             Image.asset('assets/images/piggy_coins_glasses.png',width: 200),
             SizedBox(height: 40,),
-            Text('PIGGY',
+            Text('Planning...',
               style: TextStyle(
-                fontSize: 80,
+                fontSize: 50,
                 fontFamily: 'Lilita One',
               )
             ),
-            Text('Your Financial Planner',
-              style: TextStyle(fontSize: 20),
-            ),
-            SizedBox(height: 60,),
+
           ],
         ),
       ),
