@@ -40,7 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen>{
                   fontFamily: 'Lilita One',
                 ),
             ),
-            SizedBox(height: 40,),
+            SizedBox(height: 30,),
             Stack(
               children: [
                 CircleAvatar(
@@ -67,7 +67,7 @@ class _ProfileScreenState extends State<ProfileScreen>{
                 ),
               ],
             ),
-            SizedBox(height: 40,),
+            SizedBox(height: 30,),
             Text('My Monthly Income',
               textAlign: TextAlign.left,
               style: TextStyle(
@@ -133,8 +133,7 @@ class _ProfileScreenState extends State<ProfileScreen>{
               ),
               ),
             ),
-
-            SizedBox(height: 60,),
+            SizedBox(height: 50,),
             ElevatedButton(onPressed: (){
               Navigator.push(context,
                 MaterialPageRoute(builder: (context) => GoalsScreen(),),);
@@ -156,7 +155,8 @@ class _ProfileScreenState extends State<ProfileScreen>{
                   fontSize: 28,
                 ),
               ),
-            ),],
+            ),
+          ],
         ),
       ),
     );

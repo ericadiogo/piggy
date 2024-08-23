@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'means_screen.dart';
+
 class TimeScreen extends StatefulWidget{
   @override
   State<StatefulWidget> createState() => _TimeScreenState();
@@ -7,7 +9,16 @@ class TimeScreen extends StatefulWidget{
 
 class _TimeScreenState extends State<TimeScreen>{
   late String userName = '';
-  double _currentSliderValue = 0;
+  int _months = 0;
+
+  void _changeMonths(int months){
+    setState(() {
+      _months +=months;
+      if(_months <1) {
+        _months = 0;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,37 +76,77 @@ class _TimeScreenState extends State<TimeScreen>{
               color: Colors.black,
               size: 150.0,
             ),
-            SizedBox(height: 40,),
-            Text('How much do you need to save?',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontSize: 18,
-              ),
-            ),
             SizedBox(height: 30,),
-            Slider(
-              value: _currentSliderValue,
-              max: 100000,
-              divisions: 50000,
-              label: _currentSliderValue.round().toString(),
-              onChanged: (double value){
-                setState(() {
-                  _currentSliderValue = value;
-                });
-              },
-              activeColor: Colors.black,
-              inactiveColor: Colors.grey[500],
-            ),
-            SizedBox(height: 20,),
-            Text('\$ $_currentSliderValue',style: TextStyle(
-              fontSize: 32,
-              fontFamily: 'Lilita One',
-            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  children: [
+                    Text('$_months',style:TextStyle(
+                        fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(width: 10,),
+                Column(
+                  children:[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(onPressed: (){
+                            _changeMonths(1);
+                          },
+                          child:Icon(
+                              Icons.arrow_drop_up,
+                              color: Colors.black,
+                              size: 30,
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStatePropertyAll<Color>(Colors.transparent),
+                              shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            fixedSize: MaterialStateProperty.all<Size>(Size(5.0, 5.0),),
+                            ),
+                          ),
+                        ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(onPressed:(){
+                            _changeMonths(-1);
+                          },
+                          child:Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.black,
+                            size: 30,
+                          ),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll<Color>(Colors.transparent),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                            ),
+                            fixedSize: MaterialStateProperty.all<Size>(Size(5.0, 5.0),),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
             ),
             SizedBox(height: 40,),
             ElevatedButton(onPressed: (){
               Navigator.push(context,
-                MaterialPageRoute(builder: (context) => TimeScreen(),),);
+                MaterialPageRoute(builder: (context) => MeansScreen(),),);
             },
               style: ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
@@ -115,7 +166,7 @@ class _TimeScreenState extends State<TimeScreen>{
                 ),
               ),
             ),],
-        ),
+          ),
       ),
     );
   }
