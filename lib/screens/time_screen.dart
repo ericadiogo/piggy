@@ -9,6 +9,7 @@ class TimeScreen extends StatefulWidget{
 
 class _TimeScreenState extends State<TimeScreen>{
   late String userName = '';
+  late String goal = '';
   int _months = 0;
 
   void _changeMonths(int months){
@@ -57,7 +58,7 @@ class _TimeScreenState extends State<TimeScreen>{
               ),
             ),
             SizedBox(height: 40,),
-            Text('New Piggy',
+            Text('$goal',
               style: TextStyle(
                 fontSize: 32,
                 fontFamily: 'Lilita One',
