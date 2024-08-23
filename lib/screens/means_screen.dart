@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:piggy/screens/results_screen.dart';
+
+import 'means_screen.dart';
 
 class MeansScreen extends StatefulWidget{
   @override
@@ -7,6 +10,7 @@ class MeansScreen extends StatefulWidget{
 
 class _MeansScreenState extends State<MeansScreen>{
   late String userName = '';
+  late String goal = '';
   int _months = 0;
 
   void _changeMonths(int months){
@@ -49,102 +53,99 @@ class _MeansScreenState extends State<MeansScreen>{
                         fontSize: 36,
                         fontFamily: 'Lilita One',
                         color: Colors.white,
-                      )
+                      ),
                   ),
                 ],
               ),
             ),
             SizedBox(height: 40,),
-            Text('New Piggy',
+            Text('$goal',
               style: TextStyle(
                 fontSize: 32,
                 fontFamily: 'Lilita One',
               ),
             ),
             SizedBox(height: 80,),
-            Text('Time',
+            Text('Means',
               style: TextStyle(
                 fontSize: 50,
                 fontFamily: 'Lilita One',
               ),
             ),
-            SizedBox(height: 20,),
-            Icon(
-              Icons.access_time,
-              color: Colors.black,
-              size: 150.0,
-            ),
-            SizedBox(height: 30,),
+            SizedBox(height: 40,),
             Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Column(
                   children: [
-                    Text('$_months',style:TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    ),
+                    Image.asset('assets/images/coin.png',width: 60),
                   ],
                 ),
-                SizedBox(width: 10,),
+                SizedBox(width: 20,),
                 Column(
-                  children:[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(onPressed: (){
-                          _changeMonths(1);
-                        },
-                          child:Icon(
-                            Icons.arrow_drop_up,
-                            color: Colors.black,
-                            size: 30,
-                          ),
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStatePropertyAll<Color>(Colors.transparent),
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            fixedSize: MaterialStateProperty.all<Size>(Size(5.0, 5.0),),
-                          ),
-                        ),
-                      ],
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Fixed Installments',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(onPressed:(){
-                          _changeMonths(-1);
-                        },
-                          child:Icon(
-                            Icons.arrow_drop_down,
-                            color: Colors.black,
-                            size: 30,
-                          ),
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStatePropertyAll<Color>(Colors.transparent),
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            fixedSize: MaterialStateProperty.all<Size>(Size(5.0, 5.0),),
-                          ),
-                        ),
-                      ],
+                    SizedBox(height: 2,),
+                    Text('Find how much you need to save ',
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                    Text('per period to achieve your goal.',
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
                     ),
                   ],
                 ),
               ],
             ),
-            SizedBox(height: 40,),
+            SizedBox(height: 30,),
+            Row(
+              children: [
+                Column(
+                  children: [
+                    Image.asset('assets/images/coingroup.png',width: 60),
+                  ],
+                ),
+                SizedBox(width: 20,),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Progressive Installments',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                    SizedBox(height: 2,),
+                    Text('Progressive installments to help ',
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                    Text('you achieve your goal faster.',
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: 60,),
             ElevatedButton(onPressed: (){
               Navigator.push(context,
-                MaterialPageRoute(builder: (context) => MeansScreen(),),);
+                MaterialPageRoute(builder: (context) => ResultsScreen(),),);
             },
               style: ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
