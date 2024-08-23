@@ -54,7 +54,7 @@ class _ResultsScreenState extends State<ResultsScreen>{
                   SizedBox(width: 20,),
                   Expanded(child:
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Hey, $userName!',
                           style: TextStyle(
@@ -454,7 +454,7 @@ class _ResultsScreenState extends State<ResultsScreen>{
               children: [
                 ElevatedButton(onPressed: (){
                   Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomeScreen(),),);
+                    MaterialPageRoute(builder: (context) => ConversionScreen(),),);
                 },
                   style: ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
@@ -477,7 +477,7 @@ class _ResultsScreenState extends State<ResultsScreen>{
                 SizedBox(width: 10,),
                 ElevatedButton(onPressed: (){
                   Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ConversionScreen(),),);
+                    MaterialPageRoute(builder: (context) => HomeScreen(),),);
                 },
                   style: ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),

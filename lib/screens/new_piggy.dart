@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:piggy/screens/planning_screen.dart';
-import 'package:piggy/screens/results_screen.dart';
-import 'package:piggy/screens/time_screen.dart';
-
-import 'login_screen.dart';
+import 'home_screen.dart';
 
 class NewPiggyScreen extends StatefulWidget{
   @override
@@ -30,7 +27,7 @@ class _NewPiggyScreenState extends State<NewPiggyScreen>{
     return Scaffold(
       backgroundColor: Color(0xFFFFA3B2),
       body: SingleChildScrollView(
-        child:       Container(
+        child: Container(
           padding: EdgeInsets.all(40),
           width: double.infinity,
           alignment: Alignment.center,
@@ -300,28 +297,57 @@ class _NewPiggyScreenState extends State<NewPiggyScreen>{
                 ],
               ),
               SizedBox(height: 20,),
-              ElevatedButton(onPressed: (){
-                Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => PlanningScreen(),),);
-              },
-                style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ElevatedButton(onPressed: (){
+                    Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => PlanningScreen(),),);
+                  },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(10),),
+                      fixedSize: MaterialStateProperty.all<Size>(Size(150.0, 60.0),),
+                    ),
+                    child: Text('Create',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                      ),
                     ),
                   ),
-                  padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(10),),
-                  fixedSize: MaterialStateProperty.all<Size>(Size(200.0, 60.0),),
-                ),
-                child: Text('Create!',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 28,
+                  SizedBox(width: 10,),
+                  ElevatedButton(onPressed: (){
+                    Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => HomeScreen(),),);
+                  },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(10),),
+                      fixedSize: MaterialStateProperty.all<Size>(Size(150.0, 60.0),),
+                    ),
+                    child: Text('Back',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                      ),
+                    ),
                   ),
-                ),
-              ),],
+                ],
+              ),
+            ],
           ),
         ),
       ),

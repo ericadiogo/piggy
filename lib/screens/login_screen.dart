@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:piggy/screens/profile_screen.dart';
 import 'package:piggy/screens/register_screen.dart';
-
 import '../services/firebase_auth_methods.dart';
 import 'forgot_pass_screen.dart';
 import 'home_screen.dart';

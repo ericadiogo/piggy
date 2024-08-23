@@ -117,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen>{
                 padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(10),),
                 fixedSize: MaterialStateProperty.all<Size>(Size(200.0, 60.0),),
               ),
-              child: Text('Convert',
+              child: Text('Conversion',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
