@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:piggy/screens/launcher_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'home_screen.dart';
 
 class SplashScreen extends StatefulWidget{
   @override
@@ -9,14 +12,25 @@ class SplashScreen extends StatefulWidget{
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
+
   @override
   void initState() {
     super.initState();
-    
-    Future.delayed(Duration(seconds: 4),(){
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (_) => LauncherScreen(),
-      ));
+
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if(user == null){
+        Future.delayed(Duration(seconds: 4),(){
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (_) => LauncherScreen(),
+          ));
+        });
+      } else {
+        Future.delayed(Duration(seconds: 4),(){
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (_) => HomeScreen(),
+          ));
+        });
+      }
     });
   }
 

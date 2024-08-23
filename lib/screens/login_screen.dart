@@ -5,6 +5,7 @@ import 'package:piggy/screens/register_screen.dart';
 
 import '../services/firebase_auth_methods.dart';
 import 'forgot_pass_screen.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget{
   const LoginScreen({Key? key}) : super(key: key);
@@ -34,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen>{
       ),
     );
     Navigator.push(context,
-      MaterialPageRoute(builder: (context) => ProfileScreen(),),);
+      MaterialPageRoute(builder: (context) => HomeScreen(),),);
   }
 
   @override

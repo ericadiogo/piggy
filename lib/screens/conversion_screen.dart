@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:piggy/screens/register_screen.dart';
 
-class LauncherScreen extends StatefulWidget{
+class ConversionScreen extends StatefulWidget{
   @override
-  State<StatefulWidget> createState() => _LauncherScreenState();
+  State<StatefulWidget> createState() => _ConversionScreenState();
 }
 
-class _LauncherScreenState extends State<LauncherScreen>{
+class _ConversionScreenState extends State<ConversionScreen>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
