@@ -8,6 +8,7 @@ import 'home_screen.dart';
 import 'launcher_screen.dart';
 
 class ProfileScreen extends StatefulWidget{
+
   @override
   State<StatefulWidget> createState() => _ProfileScreenState();
 }
@@ -15,7 +16,7 @@ class ProfileScreen extends StatefulWidget{
 class _ProfileScreenState extends State<ProfileScreen>{
   final imagePicker = ImagePicker();
   File? imageFile;
-  final user = FirebaseAuth.instance.currentUser!;
+  final user = FirebaseAuth.instance.currentUser;
 
   pick(ImageSource source) async {
     final pickedFile = await imagePicker.pickImage(source: source);
@@ -37,10 +38,12 @@ class _ProfileScreenState extends State<ProfileScreen>{
         alignment: Alignment.center,
           padding: EdgeInsets.all(40),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height: 60,),
             Text('Set Your Profile',
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 50,
                   fontFamily: 'Lilita One',
