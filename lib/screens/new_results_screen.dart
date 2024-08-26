@@ -109,60 +109,6 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
                 ],
               ),
             ),
-            SizedBox(height: 20,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: Column(
-                    children: [
-                      Text(
-                        'Goal',
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontFamily: 'Lilita One',
-                        ),
-                      ),
-                      Text(
-                        '\$ $_goal',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'Lilita One',
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(width: 5,),
-                Expanded(
-                  flex: 6,
-                  child: Slider(
-                    value: _currentSliderValue,
-                    max: 100000,
-                    divisions: 50000,
-                    label: _currentSliderValue.round().toString(),
-                    onChanged: (double value) {
-                      setState(() {
-                        _currentSliderValue = value;
-                      });
-                    },
-                    activeColor: Colors.black,
-                    inactiveColor: Colors.grey[500],
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Text(
-                    '\$ $_currentSliderValue',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontFamily: 'Lilita One',
-                    ),
-                  ),
-                ),
-              ],
-            ),
             SizedBox(height: 40,),
             Expanded(
               child: ListView.builder(
