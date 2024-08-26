@@ -16,8 +16,9 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
   double _percent = 0;
   bool isFixed = true;
   int time = 8;
-  double _currentSliderValue = 0;
-  double _goal = 0;
+  int total = 0;
+  int fixedValue = 100;
+  final TextEditingController _amountController = TextEditingController();
 
   @override
   void initState() {
@@ -51,15 +52,15 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
       setState(() {
         isFixed = highestPiggy['fixed'] as bool;
         time = highestPiggy['time'] as int;
+        total = highestPiggy['needToSave'] as int;
+        fixedValue = (total / time).floor();
+        _amountController.text = fixedValue.toString();
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    int numCheckboxes = isFixed ? time : 30;
-    String checkboxText = isFixed ? '50' : '60';
-
     return Scaffold(
       backgroundColor: Color(0xFFFFA3B2),
       body: Container(
@@ -110,28 +111,19 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
               ),
             ),
             SizedBox(height: 40,),
-            Expanded(
-              child: ListView.builder(
-                itemCount: numCheckboxes,
-                itemBuilder: (context, index) {
-                  return Row(
-                    children: [
-                      Checkbox(
-                        value: false,
-                        activeColor: Colors.black,
-                        onChanged: (bool? newValue) {
-                        },
-                      ),
-                      Text(
-                        '\$ $checkboxText',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  );
-                },
+            TextField(
+              controller: _amountController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                hintText: "Monthly recommended deposit: " + fixedValue.toString(),
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              style: TextStyle(
+                fontSize: 18,
               ),
             ),
             SizedBox(height: 20,),
@@ -140,13 +132,10 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ConversionScreen()),
-                    );
+
                   },
                   style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
                     shape: MaterialStateProperty.all(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
@@ -156,7 +145,7 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
                     fixedSize: MaterialStateProperty.all<Size>(Size(150.0, 60.0)),
                   ),
                   child: Text(
-                    'Conversion',
+                    'Deposit',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -173,7 +162,7 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
                     );
                   },
                   style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
                     shape: MaterialStateProperty.all(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
@@ -183,7 +172,7 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
                     fixedSize: MaterialStateProperty.all<Size>(Size(150.0, 60.0)),
                   ),
                   child: Text(
-                    'Back',
+                    'Return',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
