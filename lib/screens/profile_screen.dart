@@ -20,6 +20,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String _incomeHint = '';
   String _expensesHint = '';
 
+  // Controllers for TextFields
+  final _nameController = TextEditingController();
+  final _incomeController = TextEditingController();
+  final _expensesController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -37,8 +42,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
           _nameHint = userData['name']?.toString() ?? '';
           _incomeHint = userData['income']?.toString() ?? '';
           _expensesHint = userData['expenses']?.toString() ?? '';
+
+          // Initialize controllers with fetched values
+          _nameController.text = _nameHint;
+          _incomeController.text = _incomeHint;
+          _expensesController.text = _expensesHint;
         });
       }
+    }
+  }
+
+  Future<void> _updateUserData() async {
+    if (user != null) {
+      final DatabaseReference dbRef = FirebaseDatabase.instance.ref().child('users/${user!.uid}');
+
+      await dbRef.update({
+        'name': _nameController.text,
+        'income': double.tryParse(_incomeController.text) ?? 0.0,
+        'expenses': double.tryParse(_expensesController.text) ?? 0.0,
+      });
     }
   }
 
@@ -113,6 +135,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Container(
                 padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
                 child: TextField(
+                  controller: _nameController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -136,6 +159,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Container(
                 padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
                 child: TextField(
+                  controller: _incomeController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -159,6 +183,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Container(
                 padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
                 child: TextField(
+                  controller: _expensesController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -175,7 +200,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      await _updateUserData(); // Update the user data in Firebase
                       Navigator.push(
                         context,
                         MaterialPageRoute(
