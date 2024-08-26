@@ -13,7 +13,6 @@ class NewResultsScreen extends StatefulWidget {
 class _NewResultsScreenState extends State<NewResultsScreen> {
   late String userName = '';
   late String goal = '';
-  int _months = 0;
   double _percent = 0;
   bool isFixed = true;
   int time = 8;
@@ -46,15 +45,6 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
         time = highestPiggy['time'] as int;
       });
     }
-  }
-
-  void _changeMonths(int months) {
-    setState(() {
-      _months += months;
-      if (_months < 1) {
-        _months = 0;
-      }
-    });
   }
 
   @override

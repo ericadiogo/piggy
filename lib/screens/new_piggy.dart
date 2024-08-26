@@ -10,7 +10,7 @@ class NewPiggyScreen extends StatefulWidget {
 
 class _NewPiggyScreenState extends State<NewPiggyScreen> {
   late String userName = '';
-  double _currentSliderValue = 0;
+  int _currentSliderValue = 0;
   int _months = 0;
   bool isFixed = false;
   bool isProgressive = false;
@@ -58,7 +58,6 @@ class _NewPiggyScreenState extends State<NewPiggyScreen> {
       MaterialPageRoute(builder: (context) => PlanningScreen()),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -155,13 +154,13 @@ class _NewPiggyScreenState extends State<NewPiggyScreen> {
               ),
               SizedBox(height: 20),
               Slider(
-                value: _currentSliderValue,
+                value: _currentSliderValue.toDouble(),
                 max: 100000,
-                divisions: 50000,
-                label: _currentSliderValue.round().toString(),
+                divisions: 100000,
+                label: _currentSliderValue.toString(),
                 onChanged: (double value) {
                   setState(() {
-                    _currentSliderValue = value;
+                    _currentSliderValue = value.toInt();
                   });
                 },
                 activeColor: Colors.black,
@@ -169,7 +168,7 @@ class _NewPiggyScreenState extends State<NewPiggyScreen> {
               ),
               SizedBox(height: 20),
               Text(
-                '\$ $_currentSliderValue',
+                '\$ ${_currentSliderValue.toString()}',
                 style: TextStyle(
                   fontSize: 28,
                   fontFamily: 'Lilita One',
