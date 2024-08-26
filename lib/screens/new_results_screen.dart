@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'conversion_screen.dart';
 import 'home_screen.dart';
 
 class NewResultsScreen extends StatefulWidget {
@@ -13,11 +12,13 @@ class NewResultsScreen extends StatefulWidget {
 class _NewResultsScreenState extends State<NewResultsScreen> {
   late String userName = '';
   late String goal = '';
+  late String piggyName = 'Hello';
   double _percent = 0;
   bool isFixed = true;
   int time = 8;
-  int total = 0;
+  int total = 50;
   int fixedValue = 100;
+  int saved = 3;
   final TextEditingController _amountController = TextEditingController();
 
   @override
@@ -31,33 +32,52 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
     final DatabaseReference userRef = FirebaseDatabase.instance.ref().child('users/${user.uid}');
     final DatabaseReference piggyRef = userRef.child('piggys');
 
-    DataSnapshot userSnapshot = await userRef.get();
-    if (userSnapshot.exists) {
-      final userData = userSnapshot.value as Map<dynamic, dynamic>;
-      setState(() {
-        userName = userData['name'] as String;
-      });
-    }
+    try {
 
-    DataSnapshot piggySnapshot = await piggyRef.get();
-    if (piggySnapshot.exists) {
-      final piggys = piggySnapshot.value as Map<dynamic, dynamic>;
-      final highestId = piggys.values
-          .map((piggy) => piggy['id'] as int)
-          .reduce((value, element) => value > element ? value : element);
+      DataSnapshot userSnapshot = await userRef.get();
+      if (userSnapshot.exists) {
+        final userData = userSnapshot.value as Map<dynamic, dynamic>;
+        print('User data: $userData');
+        setState(() {
+          userName = userData['name'] as String;
+        });
+      } else {
+        print('User data not found.');
+      }
 
-      final highestPiggy = piggys.values
-          .firstWhere((piggy) => piggy['id'] == highestId);
+      DataSnapshot piggySnapshot = await piggyRef.get();
+      if (piggySnapshot.exists) {
+        final piggys = piggySnapshot.value as Map<dynamic, dynamic>;
+        print('Piggy data: $piggys'); // Debug statement
 
-      setState(() {
-        isFixed = highestPiggy['fixed'] as bool;
-        time = highestPiggy['time'] as int;
-        total = highestPiggy['needToSave'] as int;
-        fixedValue = (total / time).floor();
-        _amountController.text = fixedValue.toString();
-      });
+        final highestId = piggys.values
+            .map((piggy) => piggy['id'] as int)
+            .reduce((value, element) => value > element ? value : element);
+
+        final highestPiggy = piggys.values
+            .firstWhere((piggy) => piggy['id'] == highestId);
+
+        print('Highest Piggy: $highestPiggy'); // Debug statement
+
+        setState(() {
+          isFixed = highestPiggy['fixed'] as bool;
+          piggyName = highestPiggy['name'] as String;
+          time = highestPiggy['time'] as int;
+          total = highestPiggy['needToSave'] as int;
+          saved = highestPiggy['saved'] as int;
+          fixedValue = (total / time).floor();
+          _amountController.text = fixedValue.toString();
+        });
+
+        print('State updated: $piggyName, $total, $saved, $fixedValue'); // Debug statement
+      } else {
+        print('Piggy data not found.');
+      }
+    } catch (e) {
+      print('Error fetching piggy data: $e');
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -111,6 +131,14 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
               ),
             ),
             SizedBox(height: 40,),
+            Text(
+              'You have saved $saved from $total  in the piggy $piggyName',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(height: 20,),
             TextField(
               controller: _amountController,
               keyboardType: TextInputType.number,
@@ -132,7 +160,7 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-
+                    // Add deposit logic here
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(Colors.black),

@@ -6,6 +6,7 @@ import 'profile_screen.dart';
 import 'results_screen.dart';
 import 'conversion_screen.dart';
 import 'new_piggy.dart';
+import 'piggy_list.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -106,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ElevatedButton(
               onPressed: () {
                 Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ResultsScreen(),),
+                  MaterialPageRoute(builder: (context) => PiggyListScreen(),),
                 );
               },
               style: ButtonStyle(
@@ -119,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(10),),
                 fixedSize: MaterialStateProperty.all<Size>(Size(200.0, 60.0),),
               ),
-              child: Text('Results',
+              child: Text('My Piggys',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
