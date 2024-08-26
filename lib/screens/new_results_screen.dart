@@ -159,8 +159,43 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
-                  onPressed: () {
-                    // Add deposit logic here
+                  onPressed: () async {
+                    try {
+                      final User user = FirebaseAuth.instance.currentUser!;
+                      final DatabaseReference userRef = FirebaseDatabase.instance.ref().child('users/${user.uid}');
+                      final DatabaseReference piggyRef = userRef.child('piggys');
+
+                      DataSnapshot piggySnapshot = await piggyRef.get();
+                      if (piggySnapshot.exists) {
+                        final piggys = piggySnapshot.value as Map<dynamic, dynamic>;
+
+                        final highestId = piggys.values
+                            .map((piggy) => piggy['id'] as int)
+                            .reduce((value, element) => value > element ? value : element);
+
+                        final highestPiggyKey = piggys.keys.firstWhere((key) => piggys[key]['id'] == highestId);
+                        final highestPiggy = piggys[highestPiggyKey];
+
+                        int depositAmount = int.parse(_amountController.text);
+                        int newSavedValue = (highestPiggy['saved'] as int) + depositAmount;
+
+                        await piggyRef.child(highestPiggyKey).update({
+                          'saved': newSavedValue,
+                        });
+
+                        setState(() {
+                          saved = newSavedValue;
+                        });
+
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text('Deposit successful! New saved value: $newSavedValue'),
+                        ));
+                      } else {
+                        print('Piggy data not found.');
+                      }
+                    } catch (e) {
+                      print('Error updating saved value: $e');
+                    }
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
@@ -181,6 +216,7 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
                     ),
                   ),
                 ),
+
                 SizedBox(width: 10,),
                 ElevatedButton(
                   onPressed: () {
