@@ -12,12 +12,14 @@ class RegisterScreen extends StatefulWidget{
 }
 
 class _RegisterScreenState extends State<RegisterScreen>{
+  final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
+    nameController.dispose();
     emailController.dispose();
     passwordController.dispose();
   }
@@ -52,7 +54,24 @@ class _RegisterScreenState extends State<RegisterScreen>{
               fontFamily: 'Lilita One',
             )
         ),
-        SizedBox(height: 60,),
+        SizedBox(height: 40,),
+        Container(
+          padding: EdgeInsets.fromLTRB(30,5,30,5),
+          child:
+          TextField(
+            controller: nameController,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(
+                  width: 1.0,
+                ),
+              ),
+              hintText: 'Name'
+            ),
+          ),
+        ),
+        SizedBox(height: 10),
         Container(
           padding: EdgeInsets.fromLTRB(30,5,30,5),
           child:
@@ -101,7 +120,7 @@ class _RegisterScreenState extends State<RegisterScreen>{
               ),
             ),
         ),
-        SizedBox(height: 60,),
+        SizedBox(height: 40,),
         ElevatedButton(onPressed: registerUser,
           style: ButtonStyle(
             backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
