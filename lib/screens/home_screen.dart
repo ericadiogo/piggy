@@ -1,25 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:piggy/screens/profile_screen.dart';
-import 'package:piggy/screens/results_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
+import 'profile_screen.dart';
+import 'results_screen.dart';
 import 'conversion_screen.dart';
 import 'new_piggy.dart';
 
-class HomeScreen extends StatefulWidget{
+class HomeScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>{
+class _HomeScreenState extends State<HomeScreen> {
   late String userName = '';
   double _currentSliderValue = 0;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
+    _fetchUserName();
+  }
+
+  Future<void> _fetchUserName() async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     final User? user = auth.currentUser;
 
+    if (user != null) {
+      final DatabaseReference userRef = FirebaseDatabase.instance.ref().child('users/${user.uid}');
+      final DataSnapshot snapshot = await userRef.get();
+
+      if (snapshot.exists) {
+        final userData = snapshot.value as Map?;
+        setState(() {
+          userName = userData?['name'] ?? 'User';
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFFFA3B2),
       body: Container(
@@ -40,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen>{
                     child: CircleAvatar(
                       radius: 20,
                       backgroundColor: Colors.grey[300],
-                      //backgroundImage: imageFile != null? FileImage(imageFile!) : null,
+                      //backgroundImage: imageFile != null ? FileImage(imageFile!) : null,
                     ),
                   ),
                   SizedBox(width: 20,),
@@ -55,12 +76,14 @@ class _HomeScreenState extends State<HomeScreen>{
               ),
             ),
             SizedBox(height: 30,),
-            Image.asset('assets/images/piggy_coins_glasses.png',width: 150),
+            Image.asset('assets/images/piggy_coins_glasses.png', width: 150),
             SizedBox(height: 30,),
-            ElevatedButton(onPressed: (){
-              Navigator.push(context,
-                MaterialPageRoute(builder: (context) => NewPiggyScreen(),),);
-            },
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => NewPiggyScreen(),),
+                );
+              },
               style: ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
                 shape: MaterialStateProperty.all(
@@ -80,10 +103,12 @@ class _HomeScreenState extends State<HomeScreen>{
               ),
             ),
             SizedBox(height: 20,),
-            ElevatedButton(onPressed: (){
-              Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ResultsScreen(),),);
-            },
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ResultsScreen(),),
+                );
+              },
               style: ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
                 shape: MaterialStateProperty.all(
@@ -103,10 +128,12 @@ class _HomeScreenState extends State<HomeScreen>{
               ),
             ),
             SizedBox(height: 20,),
-            ElevatedButton(onPressed: (){
-              Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ConversionScreen(),),);
-            },
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ConversionScreen(),),
+                );
+              },
               style: ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
                 shape: MaterialStateProperty.all(
@@ -126,10 +153,12 @@ class _HomeScreenState extends State<HomeScreen>{
               ),
             ),
             SizedBox(height: 20,),
-            ElevatedButton(onPressed: (){
-              Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ProfileScreen(),),);
-            },
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ProfileScreen(),),
+                );
+              },
               style: ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
                 shape: MaterialStateProperty.all(
