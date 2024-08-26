@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'conversion_screen.dart';
 import 'home_screen.dart';
@@ -18,6 +20,34 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
   double _currentSliderValue = 0;
   double _goal = 0;
 
+  @override
+  void initState() {
+    super.initState();
+    _fetchPiggyData();
+  }
+
+  Future<void> _fetchPiggyData() async {
+    final User user = FirebaseAuth.instance.currentUser!;
+    final DatabaseReference dbRef =
+    FirebaseDatabase.instance.ref().child('users/${user.uid}/piggys');
+
+    DataSnapshot snapshot = await dbRef.get();
+    if (snapshot.exists) {
+      final piggys = snapshot.value as Map<dynamic, dynamic>;
+      final highestId = piggys.values
+          .map((piggy) => piggy['id'] as int)
+          .reduce((value, element) => value > element ? value : element);
+
+      final highestPiggy = piggys.values
+          .firstWhere((piggy) => piggy['id'] == highestId);
+
+      setState(() {
+        isFixed = highestPiggy['fixed'] as bool;
+        time = highestPiggy['time'] as int;
+      });
+    }
+  }
+
   void _changeMonths(int months) {
     setState(() {
       _months += months;
@@ -29,7 +59,6 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     int numCheckboxes = isFixed ? time : 30;
     String checkboxText = isFixed ? '50' : '60';
 
@@ -144,10 +173,9 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
                   return Row(
                     children: [
                       Checkbox(
-                        value: false, // Handle checkbox state as needed
+                        value: false,
                         activeColor: Colors.black,
                         onChanged: (bool? newValue) {
-                          // Handle checkbox state change
                         },
                       ),
                       Text(
