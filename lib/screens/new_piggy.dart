@@ -30,7 +30,7 @@ class _NewPiggyScreenState extends State<NewPiggyScreen> {
     final DatabaseReference dbRef =
     FirebaseDatabase.instance.ref().child('users/${user.uid}/piggys');
 
-    // Creating the new piggy object
+
     final newPiggy = {
       'name': _goalController.text,
       'needToSave': _currentSliderValue,
@@ -42,7 +42,7 @@ class _NewPiggyScreenState extends State<NewPiggyScreen> {
 
     await dbRef.push().set(newPiggy);
 
-    // Navigate to the PlanningScreen after saving
+
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => PlanningScreen()),
