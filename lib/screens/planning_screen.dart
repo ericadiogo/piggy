@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:piggy/screens/results_screen.dart';
 
 import 'home_screen.dart';
+import 'new_results_screen.dart';
 
 class PlanningScreen extends StatefulWidget{
   @override
@@ -19,7 +20,7 @@ class _PlanningScreenState extends State<PlanningScreen>
 
     Future.delayed(Duration(seconds: 4),(){
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (_) => ResultsScreen(),
+        builder: (_) => NewResultsScreen(),
       ));
     });
   }

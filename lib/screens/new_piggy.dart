@@ -30,8 +30,19 @@ class _NewPiggyScreenState extends State<NewPiggyScreen> {
     final DatabaseReference dbRef =
     FirebaseDatabase.instance.ref().child('users/${user.uid}/piggys');
 
+    DataSnapshot snapshot = await dbRef.get();
+    int newId = 1;
+
+    if (snapshot.exists) {
+      final piggys = snapshot.value as Map<dynamic, dynamic>;
+      final highestId = piggys.values
+          .map((piggy) => piggy['id'] as int)
+          .reduce((value, element) => value > element ? value : element);
+      newId = highestId + 1;
+    }
 
     final newPiggy = {
+      'id': newId,
       'name': _goalController.text,
       'needToSave': _currentSliderValue,
       'saved': 0.0,
@@ -42,12 +53,12 @@ class _NewPiggyScreenState extends State<NewPiggyScreen> {
 
     await dbRef.push().set(newPiggy);
 
-
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => PlanningScreen()),
     );
   }
+
 
   @override
   Widget build(BuildContext context) {
