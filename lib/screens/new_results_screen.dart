@@ -27,12 +27,20 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
 
   Future<void> _fetchPiggyData() async {
     final User user = FirebaseAuth.instance.currentUser!;
-    final DatabaseReference dbRef =
-    FirebaseDatabase.instance.ref().child('users/${user.uid}/piggys');
+    final DatabaseReference userRef = FirebaseDatabase.instance.ref().child('users/${user.uid}');
+    final DatabaseReference piggyRef = userRef.child('piggys');
 
-    DataSnapshot snapshot = await dbRef.get();
-    if (snapshot.exists) {
-      final piggys = snapshot.value as Map<dynamic, dynamic>;
+    DataSnapshot userSnapshot = await userRef.get();
+    if (userSnapshot.exists) {
+      final userData = userSnapshot.value as Map<dynamic, dynamic>;
+      setState(() {
+        userName = userData['name'] as String;
+      });
+    }
+
+    DataSnapshot piggySnapshot = await piggyRef.get();
+    if (piggySnapshot.exists) {
+      final piggys = piggySnapshot.value as Map<dynamic, dynamic>;
       final highestId = piggys.values
           .map((piggy) => piggy['id'] as int)
           .reduce((value, element) => value > element ? value : element);
