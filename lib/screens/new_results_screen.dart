@@ -66,7 +66,6 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
           total = highestPiggy['needToSave'] as int;
           saved = highestPiggy['saved'] as int;
           fixedValue = (total / time).floor();
-          _amountController.text = fixedValue.toString();
 
           // Calculate percentage
           _percent = (saved / total * 100).toDouble();

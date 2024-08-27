@@ -40,28 +40,6 @@ class _ConversionScreenState extends State<ConversionScreen>{
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                padding: EdgeInsets.fromLTRB(0, 40, 0, 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Expanded(child:
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Hey, $userName!',
-                          style: TextStyle(
-                            fontSize: 36,
-                            fontFamily: 'Lilita One',
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                    ),
-                  ],
-                ),
-              ),
               SizedBox(height: 40,),
               Image.asset('assets/images/currency.png',width: 100),
               SizedBox(height: 30,),

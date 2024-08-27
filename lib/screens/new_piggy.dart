@@ -202,7 +202,7 @@ class _NewPiggyScreenState extends State<NewPiggyScreen> {
                           ),
                           SizedBox(width: 10),
                           Text(
-                            'Time',
+                            'Months',
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 21,

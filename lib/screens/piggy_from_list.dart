@@ -52,7 +52,6 @@ class _ManagePiggyScreenState extends State<ManagePiggyScreen> {
           total = piggy['needToSave'] as int;
           saved = piggy['saved'] as int;
           fixedValue = (total / time).floor();
-          _amountController.text = fixedValue.toString();
           _percent = (saved / total * 100).toDouble();
         });
 
