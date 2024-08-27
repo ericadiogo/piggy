@@ -45,16 +45,6 @@ class _ConversionScreenState extends State<ConversionScreen>{
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    CircleAvatar(
-                      radius: 25,
-                      backgroundColor: Colors.grey[200],
-                      child: CircleAvatar(
-                        radius: 20,
-                        backgroundColor: Colors.grey[300],
-                        //backgroundImage: imageFile != null? FileImage(imageFile!) : null,
-                      ),
-                    ),
-                    SizedBox(width: 20,),
                     Expanded(child:
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,7 +84,7 @@ class _ConversionScreenState extends State<ConversionScreen>{
                           Text('Convert any currency:',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 30,
+                              fontSize: 26,
                               fontFamily: 'Lilita One',
                             ),
                           ),

@@ -106,16 +106,6 @@ class _ManagePiggyScreenState extends State<ManagePiggyScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundColor: Colors.grey[200],
-                    child: CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Colors.grey[300],
-                      //backgroundImage: imageFile != null ? FileImage(imageFile!) : null,
-                    ),
-                  ),
-                  SizedBox(width: 20,),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
