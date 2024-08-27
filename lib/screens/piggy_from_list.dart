@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:piggy/screens/piggy_list.dart';
 
 import 'home_screen.dart';
+import 'piggy_list.dart'; // Import the PiggyListScreen
 
 class ManagePiggyScreen extends StatefulWidget {
   final int piggyId;
@@ -59,6 +61,32 @@ class _ManagePiggyScreenState extends State<ManagePiggyScreen> {
       }
     } catch (e) {
       print('Error fetching piggy data: $e');
+    }
+  }
+
+  Future<void> _deletePiggy() async {
+    final User user = FirebaseAuth.instance.currentUser!;
+    final DatabaseReference userRef = FirebaseDatabase.instance.ref().child('users/${user.uid}');
+    final DatabaseReference piggyRef = userRef.child('piggys');
+
+    try {
+      DataSnapshot piggySnapshot = await piggyRef.get();
+      if (piggySnapshot.exists) {
+        final piggys = piggySnapshot.value as Map<dynamic, dynamic>;
+
+        final piggyKey = piggys.keys.firstWhere((key) => piggys[key]['id'] == widget.piggyId);
+
+        await piggyRef.child(piggyKey).remove();
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => PiggyListScreen()), // Navigate to PiggyListScreen
+        );
+      } else {
+        print('Piggy data not found.');
+      }
+    } catch (e) {
+      print('Error deleting piggy: $e');
     }
   }
 
@@ -225,6 +253,35 @@ class _ManagePiggyScreenState extends State<ManagePiggyScreen> {
                   ),
                 ),
               ],
+            ),
+            SizedBox(height: 40,),
+            ElevatedButton(
+              onPressed: () async {
+                await _deletePiggy();
+                Navigator.push(
+                    context,
+                  MaterialPageRoute(builder: (context) => PiggyListScreen()),
+                );
+
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(10)),
+                fixedSize: MaterialStateProperty.all<Size>(Size(150.0, 60.0)),
+              ),
+              child: Text(
+                'Delete',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
+                ),
+              ),
             ),
           ],
         ),
