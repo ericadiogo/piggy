@@ -15,7 +15,6 @@ class ManagePiggyScreen extends StatefulWidget {
 
 class _ManagePiggyScreenState extends State<ManagePiggyScreen> {
   late String userName = '';
-  late String goal = '';
   late String piggyName = 'Hello';
   double _percent = 0;
   bool isFixed = true;
@@ -52,6 +51,7 @@ class _ManagePiggyScreenState extends State<ManagePiggyScreen> {
           saved = piggy['saved'] as int;
           fixedValue = (total / time).floor();
           _amountController.text = fixedValue.toString();
+          _percent = (saved / total * 100).toDouble();
         });
 
       } else {
@@ -101,7 +101,7 @@ class _ManagePiggyScreenState extends State<ManagePiggyScreen> {
                           ),
                         ),
                         Text(
-                          'You reached less than ($_percent)% of your Piggy.',
+                          'You have reached ${_percent.toStringAsFixed(2)}% of your Piggy.',
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.white,
@@ -164,6 +164,7 @@ class _ManagePiggyScreenState extends State<ManagePiggyScreen> {
 
                         setState(() {
                           saved = newSavedValue;
+                          _percent = (saved / total * 100).toDouble();
                         });
 
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
