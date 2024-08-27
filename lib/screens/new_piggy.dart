@@ -166,11 +166,12 @@ class _NewPiggyScreenState extends State<NewPiggyScreen> {
               Slider(
                 value: _currentSliderValue.toDouble(),
                 max: 100000,
-                divisions: 100000,
+                min: 0,
+                divisions: 1000,
                 label: _currentSliderValue.toString(),
                 onChanged: (double value) {
                   setState(() {
-                    _currentSliderValue = value.toInt();
+                    _currentSliderValue = (value / 100).round() * 100;
                   });
                 },
                 activeColor: Colors.black,
@@ -213,6 +214,7 @@ class _NewPiggyScreenState extends State<NewPiggyScreen> {
                     ),
                     Expanded(
                       child: TextField(
+                        keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
