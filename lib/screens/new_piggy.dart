@@ -16,6 +16,25 @@ class _NewPiggyScreenState extends State<NewPiggyScreen> {
   bool isProgressive = false;
   final TextEditingController _goalController = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserName();
+  }
+
+  Future<void> _fetchUserName() async {
+    final User user = FirebaseAuth.instance.currentUser!;
+    final DatabaseReference dbRef = FirebaseDatabase.instance.ref().child('users/${user.uid}');
+
+    DataSnapshot snapshot = await dbRef.get();
+    if (snapshot.exists) {
+      final userData = snapshot.value as Map<dynamic, dynamic>;
+      setState(() {
+        userName = userData['name'] ?? 'User';
+      });
+    }
+  }
+
   void _changeMonths(int months) {
     setState(() {
       _months += months;
