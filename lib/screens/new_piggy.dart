@@ -93,17 +93,8 @@ class _NewPiggyScreenState extends State<NewPiggyScreen> {
               Container(
                 padding: EdgeInsets.fromLTRB(0, 30, 0, 5),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CircleAvatar(
-                      radius: 25,
-                      backgroundColor: Colors.grey[200],
-                      child: CircleAvatar(
-                        radius: 20,
-                        backgroundColor: Colors.grey[300],
-                      ),
-                    ),
-                    SizedBox(width: 20),
                     Text(
                       'Hey, $userName!',
                       style: TextStyle(
@@ -237,7 +228,7 @@ class _NewPiggyScreenState extends State<NewPiggyScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 50),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [

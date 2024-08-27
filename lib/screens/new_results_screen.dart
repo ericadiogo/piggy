@@ -91,23 +91,14 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
         width: double.infinity,
         alignment: Alignment.center,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            SizedBox(height: 40,),
             Container(
               padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundColor: Colors.grey[200],
-                    child: CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Colors.grey[300],
-                      //backgroundImage: imageFile != null ? FileImage(imageFile!) : null,
-                    ),
-                  ),
-                  SizedBox(width: 20,),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,6 +111,7 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
                             color: Colors.white,
                           ),
                         ),
+                        SizedBox(height: 10,),
                         Text(
                           'You have reached ${_percent.toStringAsFixed(
                               2)}% of your Piggy.',
@@ -134,15 +126,15 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
                 ],
               ),
             ),
-            SizedBox(height: 40,),
+            SizedBox(height: 150),
             Text(
-              'You have saved $saved from $total in the piggy $piggyName',
+              'You have saved $saved out of $total for the $piggyName Piggy',
               style: TextStyle(
                 fontSize: 18,
                 color: Colors.white,
               ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(height: 30,),
             TextField(
               controller: _amountController,
               keyboardType: TextInputType.number,
