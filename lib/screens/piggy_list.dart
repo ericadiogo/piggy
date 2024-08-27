@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:piggy/screens/piggy_from_list.dart';
+import 'piggy_from_list.dart';
 
 class PiggyListScreen extends StatefulWidget {
   const PiggyListScreen({super.key});
@@ -33,10 +35,19 @@ class _PiggyListScreenState extends State<PiggyListScreen> {
     }
   }
 
+  void _navigateToManagePiggyScreen(int piggyId) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ManagePiggyScreen(piggyId: piggyId),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFFFA3B2),
+      backgroundColor: const Color(0xFFFFA3B2),
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: const Text(
@@ -48,7 +59,7 @@ class _PiggyListScreenState extends State<PiggyListScreen> {
         ),
       ),
       body: Container(
-        padding: EdgeInsets.all(40),
+        padding: const EdgeInsets.all(40),
         width: double.infinity,
         alignment: Alignment.center,
         child: _piggys.isEmpty
@@ -65,50 +76,53 @@ class _PiggyListScreenState extends State<PiggyListScreen> {
           itemCount: _piggys.length,
           itemBuilder: (context, index) {
             final piggy = _piggys[index];
-            return Container(
-              margin: EdgeInsets.only(bottom: 20),
-              padding: EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    piggy['name'],
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Lilita One',
-                      color: Colors.black,
+            return GestureDetector(
+              onTap: () => _navigateToManagePiggyScreen(piggy['id']),
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 20),
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      piggy['name'],
+                      style: const TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Lilita One',
+                        color: Colors.black,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    'Need to Save: \$${piggy['needToSave']}',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.black,
+                    const SizedBox(height: 10),
+                    Text(
+                      'Need to Save: \$${piggy['needToSave']}',
+                      style: const TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 5),
-                  Text(
-                    'Saved: \$${piggy['saved']}',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.black,
+                    const SizedBox(height: 5),
+                    Text(
+                      'Saved: \$${piggy['saved']}',
+                      style: const TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 5),
-                  Text(
-                    'Time: ${piggy['time']} months',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.black,
+                    const SizedBox(height: 5),
+                    Text(
+                      'Time: ${piggy['time']} months',
+                      style: const TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           },
