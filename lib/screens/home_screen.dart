@@ -54,18 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(
               padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundColor: Colors.grey[200],
-                    child: CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Colors.grey[300],
-                      //backgroundImage: imageFile != null ? FileImage(imageFile!) : null,
-                    ),
-                  ),
-                  SizedBox(width: 20,),
                   Text('Hey, $userName!',
                       style: TextStyle(
                         fontSize: 36,

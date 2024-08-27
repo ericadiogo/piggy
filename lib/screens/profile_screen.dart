@@ -95,35 +95,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   fontFamily: 'Lilita One',
                 ),
               ),
-              SizedBox(height: 30),
-              Stack(
-                children: [
-                  CircleAvatar(
-                    radius: 75,
-                    backgroundColor: Colors.grey[200],
-                    child: CircleAvatar(
-                      radius: 65,
-                      backgroundColor: Colors.grey[300],
-                      backgroundImage: imageFile != null ? FileImage(imageFile!) : null,
-                    ),
-                  ),
-                  Positioned(
-                    right: 5,
-                    bottom: 5,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.grey[200],
-                      child: IconButton(
-                        onPressed: _showOptionsBottomSheet,
-                        icon: Icon(
-                          Icons.edit_outlined,
-                          color: Colors.grey[400],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 30),
               Text(
                 'Your First Name',
                 textAlign: TextAlign.left,
@@ -268,69 +239,5 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  void _showOptionsBottomSheet() {
-    showModalBottomSheet(
-      context: context,
-      builder: (_) {
-        return Padding(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: Colors.grey[200],
-                  child: Center(
-                    child: Icon(
-                      Icons.image_outlined,
-                      color: Colors.grey[500],
-                    ),
-                  ),
-                ),
-                title: Text('Gallery'),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  pick(ImageSource.gallery);
-                },
-              ),
-              ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: Colors.grey[200],
-                  child: Center(
-                    child: Icon(
-                      Icons.camera_alt_outlined,
-                      color: Colors.grey[500],
-                    ),
-                  ),
-                ),
-                title: Text('Camera'),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  pick(ImageSource.camera);
-                },
-              ),
-              ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: Colors.grey[200],
-                  child: Center(
-                    child: Icon(
-                      Icons.delete_outlined,
-                      color: Colors.grey[500],
-                    ),
-                  ),
-                ),
-                title: Text('Remove'),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  setState(() {
-                    imageFile = null;
-                  });
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+
 }
