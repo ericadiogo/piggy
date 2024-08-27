@@ -29,11 +29,11 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
 
   Future<void> _fetchPiggyData() async {
     final User user = FirebaseAuth.instance.currentUser!;
-    final DatabaseReference userRef = FirebaseDatabase.instance.ref().child('users/${user.uid}');
+    final DatabaseReference userRef = FirebaseDatabase.instance.ref().child(
+        'users/${user.uid}');
     final DatabaseReference piggyRef = userRef.child('piggys');
 
     try {
-
       DataSnapshot userSnapshot = await userRef.get();
       if (userSnapshot.exists) {
         final userData = userSnapshot.value as Map<dynamic, dynamic>;
@@ -48,7 +48,7 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
       DataSnapshot piggySnapshot = await piggyRef.get();
       if (piggySnapshot.exists) {
         final piggys = piggySnapshot.value as Map<dynamic, dynamic>;
-        print('Piggy data: $piggys'); // Debug statement
+        print('Piggy data: $piggys');
 
         final highestId = piggys.values
             .map((piggy) => piggy['id'] as int)
@@ -57,7 +57,7 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
         final highestPiggy = piggys.values
             .firstWhere((piggy) => piggy['id'] == highestId);
 
-        print('Highest Piggy: $highestPiggy'); // Debug statement
+        print('Highest Piggy: $highestPiggy');
 
         setState(() {
           isFixed = highestPiggy['fixed'] as bool;
@@ -67,9 +67,13 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
           saved = highestPiggy['saved'] as int;
           fixedValue = (total / time).floor();
           _amountController.text = fixedValue.toString();
+
+          // Calculate percentage
+          _percent = (saved / total * 100).toDouble();
         });
 
-        print('State updated: $piggyName, $total, $saved, $fixedValue'); // Debug statement
+        print(
+            'State updated: $piggyName, $total, $saved, $fixedValue, $_percent'); // Debug statement
       } else {
         print('Piggy data not found.');
       }
@@ -77,7 +81,6 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
       print('Error fetching piggy data: $e');
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +121,8 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
                           ),
                         ),
                         Text(
-                          'You reached less than ($_percent)% of your Piggy.',
+                          'You have reached ${_percent.toStringAsFixed(
+                              2)}% of your Piggy.',
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.white,
@@ -132,7 +136,7 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
             ),
             SizedBox(height: 40,),
             Text(
-              'You have saved $saved from $total  in the piggy $piggyName',
+              'You have saved $saved from $total in the piggy $piggyName',
               style: TextStyle(
                 fontSize: 18,
                 color: Colors.white,
@@ -143,7 +147,8 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
               controller: _amountController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                hintText: "Monthly recommended deposit: " + fixedValue.toString(),
+                hintText: "Monthly recommended deposit: " +
+                    fixedValue.toString(),
                 filled: true,
                 fillColor: Colors.white,
                 border: OutlineInputBorder(
@@ -162,22 +167,31 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
                   onPressed: () async {
                     try {
                       final User user = FirebaseAuth.instance.currentUser!;
-                      final DatabaseReference userRef = FirebaseDatabase.instance.ref().child('users/${user.uid}');
-                      final DatabaseReference piggyRef = userRef.child('piggys');
+                      final DatabaseReference userRef = FirebaseDatabase
+                          .instance.ref().child('users/${user.uid}');
+                      final DatabaseReference piggyRef = userRef.child(
+                          'piggys');
 
                       DataSnapshot piggySnapshot = await piggyRef.get();
                       if (piggySnapshot.exists) {
-                        final piggys = piggySnapshot.value as Map<dynamic, dynamic>;
+                        final piggys = piggySnapshot.value as Map<
+                            dynamic,
+                            dynamic>;
 
                         final highestId = piggys.values
                             .map((piggy) => piggy['id'] as int)
-                            .reduce((value, element) => value > element ? value : element);
+                            .reduce((value, element) =>
+                        value > element
+                            ? value
+                            : element);
 
-                        final highestPiggyKey = piggys.keys.firstWhere((key) => piggys[key]['id'] == highestId);
+                        final highestPiggyKey = piggys.keys.firstWhere((
+                            key) => piggys[key]['id'] == highestId);
                         final highestPiggy = piggys[highestPiggyKey];
 
                         int depositAmount = int.parse(_amountController.text);
-                        int newSavedValue = (highestPiggy['saved'] as int) + depositAmount;
+                        int newSavedValue = (highestPiggy['saved'] as int) +
+                            depositAmount;
 
                         await piggyRef.child(highestPiggyKey).update({
                           'saved': newSavedValue,
@@ -185,10 +199,13 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
 
                         setState(() {
                           saved = newSavedValue;
+                          _percent = (saved / total * 100)
+                              .toDouble();
                         });
 
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text('Deposit successful! New saved value: $newSavedValue'),
+                          content: Text(
+                              'Deposit successful! New saved value: $newSavedValue'),
                         ));
                       } else {
                         print('Piggy data not found.');
@@ -198,14 +215,17 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
                     }
                   },
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        Colors.black),
                     shape: MaterialStateProperty.all(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
                     ),
-                    padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(10)),
-                    fixedSize: MaterialStateProperty.all<Size>(Size(150.0, 60.0)),
+                    padding: MaterialStateProperty.all<EdgeInsets>(
+                        EdgeInsets.all(10)),
+                    fixedSize: MaterialStateProperty.all<Size>(
+                        Size(150.0, 60.0)),
                   ),
                   child: Text(
                     'Deposit',
@@ -226,14 +246,17 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
                     );
                   },
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        Colors.black),
                     shape: MaterialStateProperty.all(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
                     ),
-                    padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(10)),
-                    fixedSize: MaterialStateProperty.all<Size>(Size(150.0, 60.0)),
+                    padding: MaterialStateProperty.all<EdgeInsets>(
+                        EdgeInsets.all(10)),
+                    fixedSize: MaterialStateProperty.all<Size>(
+                        Size(150.0, 60.0)),
                   ),
                   child: Text(
                     'Return',
