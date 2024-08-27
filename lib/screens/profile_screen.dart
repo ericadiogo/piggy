@@ -31,6 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _fetchUserData();
   }
 
+  // Fetching user data from the DB and initializing Controllers to Update it
   Future<void> _fetchUserData() async {
     if (user != null) {
       final DatabaseReference dbRef = FirebaseDatabase.instance.ref().child('users/${user!.uid}');
@@ -43,7 +44,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           _incomeHint = userData['income']?.toString() ?? '';
           _expensesHint = userData['expenses']?.toString() ?? '';
 
-          // Initialize controllers with fetched values
+          // The hint of the Controllers are the current values fetched from the DB
+
           _nameController.text = _nameHint;
           _incomeController.text = _incomeHint;
           _expensesController.text = _expensesHint;
@@ -51,6 +53,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
     }
   }
+
+
+  // Updating the DB with the new inputs
 
   Future<void> _updateUserData() async {
     if (user != null) {

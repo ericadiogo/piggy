@@ -4,10 +4,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'home_screen.dart';
 
+
+// This screen is for when creating a New Piggy
+
 class NewResultsScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _NewResultsScreenState();
 }
+
 
 class _NewResultsScreenState extends State<NewResultsScreen> {
   late String userName = '';
@@ -27,6 +31,8 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
     _fetchPiggyData();
   }
 
+  // Fetching data from the "Last Piggy", added on the "New Piggy Screen"
+
   Future<void> _fetchPiggyData() async {
     final User user = FirebaseAuth.instance.currentUser!;
     final DatabaseReference userRef = FirebaseDatabase.instance.ref().child(
@@ -45,6 +51,9 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
         print('User data not found.');
       }
 
+      // Since each Piggy, when inserted on the DB has an ID "1" higher than the previous,
+      // we fetch the data from the "Highest ID" Piggy
+
       DataSnapshot piggySnapshot = await piggyRef.get();
       if (piggySnapshot.exists) {
         final piggys = piggySnapshot.value as Map<dynamic, dynamic>;
@@ -59,6 +68,10 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
 
         print('Highest Piggy: $highestPiggy');
 
+
+        // Setting state for the Variables fetched from the DB
+        // The user will be able to Update those values
+
         setState(() {
           isFixed = highestPiggy['fixed'] as bool;
           piggyName = highestPiggy['name'] as String;
@@ -67,7 +80,9 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
           saved = highestPiggy['saved'] as int;
           fixedValue = (total / time).floor();
 
-          // Calculate percentage
+          // The Piggy Completion percentage is not stored on the DB
+          // It is calculated in real time, which means that if the user makes
+          // new deposits, it is updated in real time, without having to wait for the DB response
           _percent = (saved / total * 100).toDouble();
         });
 
@@ -154,6 +169,10 @@ class _NewResultsScreenState extends State<NewResultsScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
+
+                // When the person "Makes a Deposit", the amount they have saved on the DB is
+                // updated, and so is the screen with the new total saved values.
+                // The percentage is also calculated and displayed
                 ElevatedButton(
                   onPressed: () async {
                     try {

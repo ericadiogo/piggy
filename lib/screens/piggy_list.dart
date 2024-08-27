@@ -4,6 +4,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:piggy/screens/piggy_from_list.dart';
 import 'piggy_from_list.dart';
 
+// This Screen is a List of all the Piggys the user has
+
 class PiggyListScreen extends StatefulWidget {
   const PiggyListScreen({super.key});
 
@@ -24,6 +26,9 @@ class _PiggyListScreenState extends State<PiggyListScreen> {
     _fetchPiggys();
   }
 
+
+  // Fetching Piggys from the DB as displaying on a List
+
   Future<void> _fetchPiggys() async {
     DataSnapshot snapshot = await _piggysRef.get();
 
@@ -34,6 +39,8 @@ class _PiggyListScreenState extends State<PiggyListScreen> {
       });
     }
   }
+
+  // When a specific Piggy is Tapped, the user is redirected to the "Manage Piiggy Screen"
 
   void _navigateToManagePiggyScreen(int piggyId) {
     Navigator.push(

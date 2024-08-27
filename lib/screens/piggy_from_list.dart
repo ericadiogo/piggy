@@ -4,7 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:piggy/screens/piggy_list.dart';
 
 import 'home_screen.dart';
-import 'piggy_list.dart'; // Import the PiggyListScreen
+import 'piggy_list.dart';
+
+
+// Manage Piggy Screen is basically the same as the Results Screen, but with a Delete Functionality
+// This time, instead of fetching the Piggy with the "Highest ID", we are fetching the Piggy
+// with the ID sent by the previous page, from the TapGesture()
 
 class ManagePiggyScreen extends StatefulWidget {
   final int piggyId;
@@ -31,6 +36,8 @@ class _ManagePiggyScreenState extends State<ManagePiggyScreen> {
     super.initState();
     _fetchPiggyData();
   }
+
+
 
   Future<void> _fetchPiggyData() async {
     final User user = FirebaseAuth.instance.currentUser!;
@@ -79,7 +86,7 @@ class _ManagePiggyScreenState extends State<ManagePiggyScreen> {
 
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => PiggyListScreen()), // Navigate to PiggyListScreen
+          MaterialPageRoute(builder: (context) => PiggyListScreen()),
         );
       } else {
         print('Piggy data not found.');

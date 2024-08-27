@@ -23,6 +23,9 @@ class _HomeScreenState extends State<HomeScreen> {
     _fetchUserName();
   }
 
+
+    // Function to fetch user data from the DB
+    // Here we are only fetching "Name" from the table "Users"
   Future<void> _fetchUserName() async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     final User? user = auth.currentUser;

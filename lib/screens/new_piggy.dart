@@ -8,12 +8,12 @@ class NewPiggyScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _NewPiggyScreenState();
 }
 
+
 class _NewPiggyScreenState extends State<NewPiggyScreen> {
   late String userName = '';
   int _currentSliderValue = 0;
   int _months = 0;
   bool isFixed = false;
-  bool isProgressive = false;
   final TextEditingController _goalController = TextEditingController();
 
   @override
@@ -22,6 +22,9 @@ class _NewPiggyScreenState extends State<NewPiggyScreen> {
     _fetchUserName();
   }
 
+
+   // Function to fetch user data from the DB
+   // Here we are only fetching "Name" from the table "Users"
   Future<void> _fetchUserName() async {
     final User user = FirebaseAuth.instance.currentUser!;
     final DatabaseReference dbRef = FirebaseDatabase.instance.ref().child('users/${user.uid}');
@@ -35,15 +38,10 @@ class _NewPiggyScreenState extends State<NewPiggyScreen> {
     }
   }
 
-  void _changeMonths(int months) {
-    setState(() {
-      _months += months;
-      if (_months < 1) {
-        _months = 0;
-      }
-    });
-  }
 
+
+    // Function to insert a New Piggy on the DB
+    // Here, we insert a new Piggy to the "List of Piggys" of the user on the table "Users"
   Future<void> _savePiggyToDatabase() async {
     final User user = FirebaseAuth.instance.currentUser!;
     final DatabaseReference dbRef =
@@ -52,6 +50,10 @@ class _NewPiggyScreenState extends State<NewPiggyScreen> {
     DataSnapshot snapshot = await dbRef.get();
     int newId = 1;
 
+    // Assigning custom ID for each Piggy
+    // So first we check if that ID already exists
+    // If it doesn't, that is the Piggy ID
+    // If it does, we add "1" to the "current ID" and create a new one
     if (snapshot.exists) {
       final piggys = snapshot.value as Map<dynamic, dynamic>;
       final highestId = piggys.values
@@ -60,6 +62,7 @@ class _NewPiggyScreenState extends State<NewPiggyScreen> {
       newId = highestId + 1;
     }
 
+    // This is the Constructor for the Piggy
     final newPiggy = {
       'id': newId,
       'name': _goalController.text,
@@ -163,6 +166,9 @@ class _NewPiggyScreenState extends State<NewPiggyScreen> {
                 ),
               ),
               SizedBox(height: 20),
+
+              // We are using a Slider for the user to assign the amount they want to save
+              // Here, the maximum amount is 100k and it increments by 100
               Slider(
                 value: _currentSliderValue.toDouble(),
                 max: 100000,
